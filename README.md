@@ -76,8 +76,7 @@
 
 * QQ音乐项目一
 * QQ音乐项目二
-
-![image-20240606182938720](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240606182938720.png)
+![img_4.png](img_4.png)
 
 ## 三、使用
 安装相应的库，并添加Cookie就可以使用。
