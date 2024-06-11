@@ -757,6 +757,7 @@ class QQMusic(object):
         return detail
 
     async def handle_singer_categpory(self, type='all', category='', page=1):
+
         try:
             page = int(page)
         except:
@@ -790,6 +791,7 @@ class QQMusic(object):
         }
         url = "https://u6.y.qq.com/cgi-bin/musics.fcg"
         if 0 <= page < 89:
+
             tags = {
                 "area": [
                     {
@@ -1009,15 +1011,16 @@ class QQMusic(object):
                 ]
             }
             datas = []
-            if type == 'all':
-                datas = [{'area': -100, 'genre': -100, 'index': -100, 'sex': -100}]
-            elif type == 'area':
 
+            if 'all' in type:
+                datas = [{'area': -100, 'genre': -100, 'index': -100, 'sex': -100}]
+            elif 'area' in type:
                 infos = tags['area']
                 for info in infos[1:]:
                     data = {}
                     if category:
-                        if info['name'] == category:
+                        if category in info['name']:
+                            print(f'type:{type}, category: {category}, page: {page}')
                             data['area'] = info['id']
                             data['genre'] = -100
                             data['index'] = -100
@@ -1031,13 +1034,13 @@ class QQMusic(object):
                         data['sex'] = -100
                         datas.append(data)
 
-            elif type == 'genre':
-                datas.pop(0)
+            elif 'genre' in type:
+
                 infos = tags['genre']
                 for info in infos[1:]:
                     data = {}
                     if category:
-                        if info['name'] == category:
+                        if category in info['name']:
                             data['genre'] = info['id']
                             data['area'] = -100
                             data['index'] = -100
@@ -1051,13 +1054,13 @@ class QQMusic(object):
                         data['sex'] = -100
                         datas.append(data)
 
-            elif type == 'index':
+            elif 'index' in type:
 
                 infos = tags['index']
                 for info in infos[1:]:
                     data = {}
                     if category:
-                        if info['name'] == category:
+                        if category in info['name']:
                             data['index'] = info['id']
                             data['area'] = -100
                             data['genre'] = -100
@@ -1072,12 +1075,11 @@ class QQMusic(object):
                         datas.append(data)
 
             elif type == 'sex':
-
                 infos = tags['sex']
                 for info in infos[1:]:
                     data = {}
                     if category:
-                        if info['name'] == category:
+                        if category in info['name']:
                             data['sex'] = info['id']
                             data['area'] = -100
                             data['genre'] = -100
@@ -1090,11 +1092,13 @@ class QQMusic(object):
                         data['genre'] = -100
                         data['index'] = -100
                         datas.append(data)
-            for data in datas:
-                area = data['area']
-                genre = data['genre']
-                index = data['index']
-                sex = data['sex']
+
+            for i in datas:
+                area = i['area']
+                genre = i['genre']
+                index = i['index']
+                sex = i['sex']
+
                 data = {
                     "comm": {
                         "cv": 4747474,
@@ -1764,5 +1768,5 @@ class QQMusic(object):
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     music = QQMusic()
-    results = loop.run_until_complete(music.handle_song('音乐人在听'))
+    results = loop.run_until_complete(music.handle_singer_categpory('area','内地',1))
     print(results)

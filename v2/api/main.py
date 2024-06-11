@@ -72,8 +72,7 @@ class Search(Resource):
             return {'ip': ip_address, 'infos': detail}
         elif 'comment' in type:
             song = request.args.get('song')
-            mode = request.args.get('mode')
-            song = loop.run_until_complete(music.song_comment(song, mode))
+            song = loop.run_until_complete(music.song_comment(song))
             return {'ip': ip_address, 'infos': song}
         else:
             return {'ip': ip_address, 'infos': '接口不存在'}
@@ -122,6 +121,7 @@ class Singer(Resource):
         loop = asyncio.get_event_loop()
         music = QQMusic()
         type = request.args.get('type')
+
         category = request.args.get('category')
         page = request.args.get('page')
 
@@ -169,6 +169,7 @@ api.add_resource(LoginSearch, '/ls')
 api.add_resource(Singer, '/singer')
 api.add_resource(Ranks, '/ranks')
 api.add_resource(Songs, '/song')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
